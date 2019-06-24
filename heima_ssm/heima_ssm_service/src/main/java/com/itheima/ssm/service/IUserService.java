@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface IUserService extends UserDetailsService {
-
+        /*代码提交git测验更新上传是否成功*/
     List<UserInfo> findAll();
 
     void save(UserInfo use);
