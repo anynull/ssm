@@ -2,6 +2,7 @@ package com.itheima.ssm.controller;
 
 import com.itheima.ssm.domain.Permission;
 import com.itheima.ssm.domain.Role;
+import com.itheima.ssm.domain.UserInfo;
 import com.itheima.ssm.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,4 +32,34 @@ public class RoleController {
         roleService.save(role);
         return "redirect:findAll";
     }
+
+    @RequestMapping("/findByRoleId")
+    public ModelAndView findByRoleId(@RequestParam(name = "id",required = true) String roleId){
+        ModelAndView mv = new ModelAndView();
+        Role role= roleService.findByRoleId(roleId);
+        List<Permission> permissions = roleService.findPermissionByRoleId(roleId);
+        mv.addObject("permission", permissions);
+        mv.addObject("role",role);
+        mv.setViewName("role-show");
+        return mv;
+    }
+
+    @RequestMapping("/findRoleByIdAndAllPermission")
+    public ModelAndView findRoleByIdAndAllPermission(@RequestParam(name = "id",required = true)String id){
+        ModelAndView mv = new ModelAndView();
+        Role role = roleService.findById(id);
+        List<Permission> permissions = roleService.findOtherPermission(id);
+        mv.addObject("permissionList",permissions );
+        mv.addObject("role", role);
+        mv.setViewName("role-permission-add");
+        return mv;
+    }
+
+    @RequestMapping("/addPermissionToRole")
+    public String addPermissionToRole(@RequestParam(name = "roleId",required = true)String roleId,
+                                @RequestParam(name = "ids",required = true)String[] permissionIds){
+        roleService.addPermissionToRole(roleId,permissionIds);
+        return "redirect:findAll";
+    }
+
 }

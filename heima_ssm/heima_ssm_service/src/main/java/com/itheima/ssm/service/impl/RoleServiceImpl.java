@@ -1,6 +1,7 @@
 package com.itheima.ssm.service.impl;
 
 import com.itheima.ssm.dao.IRoleDao;
+import com.itheima.ssm.domain.Permission;
 import com.itheima.ssm.domain.Role;
 import com.itheima.ssm.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,32 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public void save(Role role) {
         roleDao.save(role);
+    }
+
+    @Override
+    public Role findById(String id) {
+        return roleDao.findById(id);
+    }
+
+    @Override
+    public List<Permission> findOtherPermission(String id) {
+        return roleDao.findOtherPermission(id);
+    }
+
+    @Override
+    public void addPermissionToRole(String roleId, String[] permissionIds) {
+        for (String permissionId : permissionIds) {
+            roleDao.addPermissionToRole(roleId,permissionId);
+        }
+    }
+
+    @Override
+    public Role findByRoleId(String roleId) {
+        return roleDao.findByRoleId(roleId);
+    }
+
+    @Override
+    public List<Permission> findPermissionByRoleId(String id) {
+        return roleDao.findPermissionByRoleId(id);
     }
 }
